@@ -91,6 +91,8 @@ Add pagination for large numbers of student records.
 ### All Student Details
 ![All Student Details](viewPage.png)
 Contributors
-Jhanvi
+
+Jhanvi & 
 Nakul
+
 This project was collaboratively developed as a Java web application for managing student records.
