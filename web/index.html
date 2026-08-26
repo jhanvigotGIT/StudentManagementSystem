@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>STUDENT </title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background:
+          linear-gradient(
+        rgba(10,20,30,0.5),
+        rgba(20,30,40,0.6)
+    ),
+        url("https://img.freepik.com/free-vector/university-lecture-hall-with-teacher-students-sitting-desks-concept-education-conference-public-seminar-vector-flat-illustration-speaker-audience-college-classroom_107791-11162.jpg?semt=ais_hybrid&w=740&q=80");
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.title{
+    text-align: center;
+    color: #ffffff;
+
+    text-shadow:
+        0 0 10px rgba(0,0,0,10),
+        0 0 15px rgba(34,211,238,0.6);
+
+    font-size: 36px;
+    letter-spacing:2px;
+    position:relative;
+    top: -100px;
+    margin:20px 0;
+    
+    font-weight:bold;
+}
+.container {
+    width: 700px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #2f3e4e;
+    color: white;
+    position: relative;
+}
+
+h2 { text-align: center; }
+
+.btn {
+    padding: 10px;
+    margin: 5px;
+    background: linear-gradient(135deg, #2563eb, #22d3ee);
+    color: white;
+    font-weight: bold;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn:hover {
+    background: linear-gradient(135deg, #1d4ed8, #38bdf8);
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 5px;
+    border: none;
+}
+
+/* SECTIONS */
+.form-section { display: none; }
+
+/* ERROR TEXT */
+.error {
+    color: #ff6b6b;
+    font-size: 12px;
+}
+
+/* FULL SCREEN VIEW */
+#tableView {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; e33
+    height: 100%;
+    background: #1f2a38;
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+#tableBox {
+    background: #2f3e4e;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th, td {
+    border: 1px solid white;
+    padding: 8px;
+    text-align: center;
+}
+
+/* CLOSE BUTTON */
+.closeBtn {
+    float: right;
+    background: red;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* MODAL */
+#modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 8px;
+    width: 350px;
+}
+
+/* ✅ POPUP (NEW ADDED) */
+#popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 10000;
+}
+
+.popup-box {
+    background: white;
+    color: black;
+    padding: 25px 30px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 250px;
+}
+</style>
+</head>
+
+<body>
+    <h1 class="title">STUDENT MANAGEMENT SYSTEM</h1> 
+<div class="container">
+
+
+
+<button class="btn" onclick="show('reg')">Register</button>
+<button class="btn" onclick="openModal()">Update</button>
+<button class="btn" onclick="show('del')">Delete</button>
+<button class="btn" onclick="openView()">View Data</button>
+
+<!-- REGISTER -->
+<div id="reg" class="form-section">
+<form action="RegisterServlet" method="post" onsubmit="return validateRegister()">
+
+<input id="name" name="name" placeholder="Name">
+<small id="err_name" class="error"></small>
+
+<input id="email" name="email" placeholder="Email">
+<small id="err_email" class="error"></small>
+
+<input id="phone" name="phone" placeholder="Phone">
+<small id="err_phone" class="error"></small>
+
+<select id="gender" name="gender">
+<option value="">Gender</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<select id="course" name="course">
+<option value="">Course</option>
+<option>B.Tech</option>
+<option>BCA</option>
+</select>
+
+<input id="city" name="city" placeholder="City">
+<small id="err_city" class="error"></small>
+
+<button class="btn">Submit</button>
+</form>
+</div>
+
+<!-- DELETE -->
+<div id="del" class="form-section">
+<form action="DeleteServlet" method="post" onsubmit="return validateDelete()">
+
+<input id="deleteId" name="id" placeholder="Enter ID">
+<small id="err_del" class="error"></small>
+
+<button class="btn">Delete</button>
+</form>
+</div>
+
+<!-- UPDATE MODAL -->
+<div id="modal">
+<div class="modal-box">
+
+<h3>Update Student</h3>
+
+<input id="searchId" placeholder="Enter ID">
+<button class="btn" type="button" onclick="fetchData()">Fetch</button>
+
+<form action="UpdateServlet" method="post">
+
+<input id="id" name="id" readonly>
+<input id="u_name" name="name" placeholder="Name">
+<input id="u_email" name="email" placeholder="Email">
+<input id="u_phone" name="phone" placeholder="Phone">
+<input id="u_city" name="city" placeholder="City">
+
+<button class="btn">Update</button>
+</form>
+
+<button class="btn" onclick="closeModal()">Close</button>
+
+</div>
+</div>
+
+<!-- FULL SCREEN VIEW -->
+<div id="tableView">
+<div id="tableBox">
+
+<span class="closeBtn" onclick="closeView()">X</span>
+
+<h2>Database View</h2>
+
+<table>
+<thead>
+<tr>
+<th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Gender</th><th>Course</th><th>City</th>
+</tr>
+</thead>
+<tbody id="tableData"></tbody>
+</table>
+
+</div>
+</div>
+
+<!-- POPUP -->
+<div id="popup">
+    <div class="popup-box" id="popupText"></div>
+</div>
+
+</div>
+
+<script>
+
+function show(id){
+    document.getElementById('reg').style.display='none';
+    document.getElementById('del').style.display='none';
+    document.getElementById(id).style.display='block';
+}
+
+/* VIEW OPEN */
+function openView(){
+    document.getElementById("tableView").style.display="block";
+    loadData();
+}
+
+/* VIEW CLOSE */
+function closeView(){
+    document.getElementById("tableView").style.display="none";
+}
+
+/* LOAD DATA */
+function loadData(){
+    fetch("ViewServlet")
+    .then(res => res.json())
+    .then(data => {
+
+        let table = document.getElementById("tableData");
+        table.innerHTML = "";
+
+        data.forEach(s => {
+            table.innerHTML += `
+            <tr>
+                <td>${s.id}</td>
+                <td>${s.name}</td>
+                <td>${s.email}</td>
+                <td>${s.phone}</td>
+                <td>${s.gender}</td>
+                <td>${s.course}</td>
+                <td>${s.city}</td>
+            </tr>`;
+        });
+    });
+}
+
+/* MODAL */
+function openModal(){
+    document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+    document.getElementById("modal").style.display="none";
+}
+
+/* FETCH */
+function fetchData(){
+    let id = document.getElementById("searchId").value;
+
+    fetch("FetchServlet?id=" + id)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("id").value = data.id;
+        document.getElementById("u_name").value = data.name;
+        document.getElementById("u_email").value = data.email;
+        document.getElementById("u_phone").value = data.phone;
+        document.getElementById("u_city").value = data.city;
+    });
+}
+
+/* VALIDATION */
+function validateRegister(){
+
+    document.querySelectorAll(".error").forEach(e => e.innerText="");
+
+    let ok = true;
+
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let city = document.getElementById("city").value.trim();
+
+    if(name==""){
+        document.getElementById("err_name").innerText="Name required";
+        ok=false;
+    }
+
+    if(email==""){
+        document.getElementById("err_email").innerText="Email required";
+        ok=false;
+    }
+
+    if(!/^\d{10}$/.test(phone)){
+        document.getElementById("err_phone").innerText="Invalid phone";
+        ok=false;
+    }
+
+    if(city==""){
+        document.getElementById("err_city").innerText="City required";
+        ok=false;
+    }
+
+    return ok;
+}
+
+function validateDelete(){
+
+    let id = document.getElementById("deleteId").value.trim();
+
+    if(id==""){
+        document.getElementById("err_del").innerText="Enter ID";
+        return false;
+    }
+    return true;
+}
+
+/* ✅ POPUP HANDLER */
+window.onload = function(){
+
+    const params = new URLSearchParams(window.location.search);
+
+    let msg = "";
+
+    if(params.get("success")=="1"){
+        msg = "Registration Successful!<br>ID: " + params.get("id");
+    }
+
+    if(params.get("success")=="updated"){
+        msg = "Updated Successfully";
+    }
+
+    if(params.get("success")=="deleted"){
+        msg = "Deleted Successfully";
+    }
+
+    if(msg != ""){
+        document.getElementById("popupText").innerHTML = msg;
+        document.getElementById("popup").style.display = "flex";
+
+        setTimeout(()=>{
+            document.getElementById("popup").style.display = "none";
+        }, 2500);
+    }
+}
+
+</script>
+
+</body>
+</html>
