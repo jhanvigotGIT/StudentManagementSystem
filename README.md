@@ -76,6 +76,20 @@ Improve the user interface with responsive design.
 Add student search and filtering.
 Add input validation and better error handling.
 Add pagination for large numbers of student records.
+## Screenshots
+
+
+### Student Registration
+![Student Registration](registerPage.png)
+
+### Delete Student
+![Delete Student](deletePage.png)
+
+### Update Student
+![Update Student](updatePage.png)
+
+### All Student Details
+![All Student Details](viewPage.png)
 Contributors
 Jhanvi
 Nakul
