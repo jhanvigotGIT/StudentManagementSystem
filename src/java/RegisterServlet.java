@@ -25,7 +25,7 @@ public class RegisterServlet extends HttpServlet {
 
             // Create connection
             Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/college", "root", "250605");
+                    "jdbc:mysql://localhost:3306/college", "root",System.getenv("DB_PASSWORD"));
             
              Statement st = con.createStatement();
             st.executeUpdate("ALTER TABLE students AUTO_INCREMENT = 100");

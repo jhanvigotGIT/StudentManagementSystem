@@ -23,7 +23,7 @@ public class UpdateServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/college", "root", "250605");
+                    "jdbc:mysql://localhost:3306/college", "root", System.getenv("DB_PASSWORD"));
 
             // ✅ UPDATE QUERY (NOT INSERT)
             PreparedStatement ps = con.prepareStatement(
