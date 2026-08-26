@@ -90,6 +90,7 @@ Add pagination for large numbers of student records.
 
 ### All Student Details
 ![All Student Details](viewPage.png)
+
 Contributors
 
 Jhanvi & 
