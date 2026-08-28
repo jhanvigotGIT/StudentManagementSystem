@@ -21,11 +21,7 @@ public class ViewServlet extends HttpServlet {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/college",
-                    "root",
-                    System.getenv("DB_PASSWORD")
-            );
+            Connection con = DBConnection.getConnection();
 
             String query = "SELECT * FROM students";
             PreparedStatement ps = con.prepareStatement(query);

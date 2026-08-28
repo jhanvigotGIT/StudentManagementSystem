@@ -24,8 +24,7 @@ public class RegisterServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Create connection
-            Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/college", "root",System.getenv("DB_PASSWORD"));
+            Connection con = DBConnection.getConnection();
             
              Statement st = con.createStatement();
             st.executeUpdate("ALTER TABLE students AUTO_INCREMENT = 100");
@@ -61,9 +60,12 @@ public class RegisterServlet extends HttpServlet {
             // Close connection
             con.close();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+         } catch (Exception e) {
+    e.printStackTrace();
+    response.setContentType("text/html");
+    response.getWriter().println("<h2>Registration Error</h2>");
+    response.getWriter().println("<p>" + e.getMessage() + "</p>");
+}
 
         System.out.println("Servlet hit successfully");
     }
