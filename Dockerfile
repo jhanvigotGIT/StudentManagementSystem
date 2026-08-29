@@ -1,15 +1,14 @@
 FROM tomcat:10.1-jdk21
 
-WORKDIR /app
-
-COPY . .
-
 RUN apt-get update && \
     apt-get install -y ant && \
     rm -rf /var/lib/apt/lists/*
 
-RUN ant -f build.xml dist \
-    -Dj2ee.server.home=/usr/local/tomcat
+WORKDIR /app
+
+COPY . .
+
+RUN ant -f build.xml -Dj2ee.server.home=/usr/local/tomcat dist
 
 RUN cp dist/StudentManagement.war /usr/local/tomcat/webapps/StudentManagement.war
 
