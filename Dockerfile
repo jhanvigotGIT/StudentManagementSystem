@@ -7,9 +7,7 @@ COPY . .
 RUN apt-get update && \
     apt-get install -y ant && \
     rm -rf /var/lib/apt/lists/*
-
-RUN ant -Dj2ee.server.home=/usr/local/tomcat -f build.xml dist
-
+RUN ant -v -Dj2ee.server.home=/usr/local/tomcat -f build.xml dist
 RUN rm -rf /usr/local/tomcat/webapps/ROOT && \
     cp dist/StudentManagement.war /usr/local/tomcat/webapps/StudentManagement.war
 
